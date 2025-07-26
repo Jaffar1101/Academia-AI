@@ -82,10 +82,8 @@ const Dashboard = () => {
             
             {/* Calendar */}
             <CalendarWidget />
-          </div>
-
-          {/* News & Updates - Full Width */}
-          <div className="col-span-12">
+            
+            {/* News & Updates */}
             <NewsCard />
           </div>
         </div>
