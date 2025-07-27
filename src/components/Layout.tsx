@@ -3,6 +3,7 @@ import { Search, Bell, Menu, X } from "lucide-react";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { toast } from "./ui/use-toast";
 import Sidebar from "./Sidebar";
 
 interface LayoutProps {
@@ -11,6 +12,24 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      toast({
+        title: "Search functionality",
+        description: `Searching for: "${searchQuery}"`,
+      });
+    }
+  };
+
+  const handleNotifications = () => {
+    toast({
+      title: "Notifications",
+      description: "You have 3 new notifications",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -54,14 +73,21 @@ const Layout = ({ children }: LayoutProps) => {
             </div>
             
             <div className="flex items-center space-x-2 lg:space-x-4">
-              <div className="relative hidden sm:block">
+              <form onSubmit={handleSearch} className="relative hidden sm:block">
                 <Search className="w-4 h-4 lg:w-5 lg:h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
                 <Input 
                   placeholder="Search..." 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-9 lg:pl-10 w-40 lg:w-64 bg-background border-border"
                 />
-              </div>
-              <Button variant="ghost" size="icon" className="relative">
+              </form>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="relative"
+                onClick={handleNotifications}
+              >
                 <Bell className="w-5 h-5 text-muted-foreground" />
                 <span className="absolute -top-1 -right-1 w-3 h-3 bg-destructive rounded-full"></span>
               </Button>
